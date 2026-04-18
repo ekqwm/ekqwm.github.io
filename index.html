@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Alex Moreau — Portfolio</title>
+
+  <!-- Google Fonts: Syne (display) + DM Mono (details) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ─────────────────────────────────────────
+       CSS RESET & VARIABLES
+    ───────────────────────────────────────── */
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --black:   #0a0a0a;
+      --white:   #f5f5f3;
+      --gray-1:  #1a1a1a;
+      --gray-2:  #2e2e2e;
+      --gray-3:  #6b6b6b;
+      --gray-4:  #c4c4c4;
+      --gray-5:  #e8e8e8;
+
+      --font-display: 'Syne', sans-serif;
+      --font-mono:    'DM Mono', monospace;
+
+      --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    html, body {
+      height: 100%;
+      overflow: hidden;
+      background: var(--black);
+      color: var(--white);
+      font-family: var(--font-display);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ─────────────────────────────────────────
+       ROOT LAYOUT — full viewport grid
+    ───────────────────────────────────────── */
+    .portfolio {
+      display: grid;
+      grid-template-rows: auto 1fr;
+      height: 100vh;
+      width: 100vw;
+    }
+
+    /* ─────────────────────────────────────────
+       HEADER BAR
+    ───────────────────────────────────────── */
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1.4rem 2.5rem;
+      border-bottom: 1px solid var(--gray-2);
+      background: var(--black);
+      z-index: 10;
+    }
+
+    .header__name {
+      font-size: clamp(0.9rem, 1.4vw, 1.1rem);
+      font-weight: 800;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      opacity: 0;
+      animation: fadeUp 0.6s var(--ease-out) 0.1s forwards;
+    }
+
+    .header__tag {
+      font-family: var(--font-mono);
+      font-size: 0.68rem;
+      color: var(--gray-3);
+      letter-spacing: 0.08em;
+      opacity: 0;
+      animation: fadeUp 0.6s var(--ease-out) 0.25s forwards;
+    }
+
+    .header__status {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      color: var(--gray-3);
+      letter-spacing: 0.06em;
+      opacity: 0;
+      animation: fadeUp 0.6s var(--ease-out) 0.35s forwards;
+    }
+
+    .status-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--white);
+      animation: pulse 2.4s ease-in-out infinite;
+    }
+
+    /* ─────────────────────────────────────────
+       MAIN CONTENT — two-column split
+    ───────────────────────────────────────── */
+    main {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      overflow: hidden;
+    }
+
+    /* ── LEFT PANEL ── */
+    .panel-left {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 2.5rem 2.5rem 2rem;
+      border-right: 1px solid var(--gray-2);
+      background: var(--black);
+    }
+
+    /* ── RIGHT PANEL ── */
+    .panel-right {
+      display: grid;
+      grid-template-rows: 1fr 1fr;
+      background: var(--white);
+      color: var(--black);
+    }
+
+    /* ─────────────────────────────────────────
+       ABOUT SECTION (left top)
+    ───────────────────────────────────────── */
+    .about {
+      opacity: 0;
+      animation: fadeUp 0.7s var(--ease-out) 0.4s forwards;
+    }
+
+    .about__eyebrow {
+      font-family: var(--font-mono);
+      font-size: 0.62rem;
+      letter-spacing: 0.16em;
+      color: var(--gray-3);
+      text-transform: uppercase;
+      margin-bottom: 1.4rem;
+    }
+
+    .about__title {
+      font-size: clamp(2rem, 4vw, 3.4rem);
+      font-weight: 800;
+      line-height: 1.0;
+      letter-spacing: -0.02em;
+      margin-bottom: 0.8rem;
+    }
+
+    .about__title span {
+      display: block;
+      color: var(--gray-3);
+      font-weight: 400;
+      font-size: 0.55em;
+      letter-spacing: 0.04em;
+      margin-top: 0.5rem;
+    }
+
+    .about__bio {
+      margin-top: 1.8rem;
+      font-size: clamp(0.75rem, 1.1vw, 0.88rem);
+      line-height: 1.75;
+      color: var(--gray-4);
+      max-width: 34ch;
+      font-weight: 400;
+    }
+
+    /* Divider line */
+    .divider {
+      width: 2rem;
+      height: 1px;
+      background: var(--gray-2);
+      margin: 1.8rem 0;
+    }
+
+    /* ─────────────────────────────────────────
+       CONTACT SECTION (left bottom)
+    ───────────────────────────────────────── */
+    .contact {
+      opacity: 0;
+      animation: fadeUp 0.7s var(--ease-out) 0.55s forwards;
+    }
+
+    .contact__label {
+      font-family: var(--font-mono);
+      font-size: 0.6rem;
+      letter-spacing: 0.16em;
+      color: var(--gray-3);
+      text-transform: uppercase;
+      margin-bottom: 0.9rem;
+    }
+
+    .contact__discord {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.65rem;
+      padding: 0.55rem 1rem;
+      border: 1px solid var(--gray-2);
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      color: var(--white);
+      text-decoration: none;
+      letter-spacing: 0.04em;
+      transition: background 0.2s var(--ease-out), border-color 0.2s var(--ease-out),
+                  color 0.2s var(--ease-out);
+    }
+
+    .contact__discord:hover {
+      background: var(--white);
+      border-color: var(--white);
+      color: var(--black);
+    }
+
+    .discord-icon {
+      width: 14px;
+      height: 14px;
+      fill: currentColor;
+      flex-shrink: 0;
+    }
+
+    .contact__meta {
+      margin-top: 1.2rem;
+      font-family: var(--font-mono);
+      font-size: 0.6rem;
+      color: var(--gray-2);
+      letter-spacing: 0.06em;
+    }
+
+    /* ─────────────────────────────────────────
+       SKILLS SECTION (right top)
+    ───────────────────────────────────────── */
+    .skills {
+      padding: 2rem 2.2rem;
+      border-bottom: 1px solid var(--gray-5);
+      opacity: 0;
+      animation: fadeUp 0.7s var(--ease-out) 0.5s forwards;
+    }
+
+    .section__label {
+      font-family: var(--font-mono);
+      font-size: 0.6rem;
+      letter-spacing: 0.16em;
+      color: var(--gray-3);
+      text-transform: uppercase;
+      margin-bottom: 1.2rem;
+    }
+
+    .skills__grid {
+      display: flex;
+      flex-direction: column;
+      gap: 0.85rem;
+    }
+
+    .skill-row {
+      display: flex;
+      align-items: baseline;
+      gap: 1rem;
+    }
+
+    .skill-row__category {
+      font-family: var(--font-mono);
+      font-size: 0.6rem;
+      color: var(--gray-3);
+      letter-spacing: 0.08em;
+      width: 5.5rem;
+      flex-shrink: 0;
+    }
+
+    .skill-row__tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.35rem;
+    }
+
+    .tag {
+      font-family: var(--font-mono);
+      font-size: 0.64rem;
+      padding: 0.22rem 0.55rem;
+      border: 1px solid var(--gray-4);
+      color: var(--black);
+      letter-spacing: 0.04em;
+      transition: background 0.18s var(--ease-out), color 0.18s var(--ease-out);
+      cursor: default;
+    }
+
+    .tag:hover {
+      background: var(--black);
+      color: var(--white);
+      border-color: var(--black);
+    }
+
+    /* ─────────────────────────────────────────
+       EXPERIENCE SECTION (right bottom)
+    ───────────────────────────────────────── */
+    .experience {
+      padding: 1.8rem 2.2rem;
+      overflow: hidden;
+      opacity: 0;
+      animation: fadeUp 0.7s var(--ease-out) 0.65s forwards;
+    }
+
+    .exp-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+
+    .exp-item {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      align-items: start;
+      padding: 0.8rem 0;
+      border-bottom: 1px solid var(--gray-5);
+      transition: background 0.18s var(--ease-out);
+      cursor: default;
+    }
+
+    .exp-item:last-child {
+      border-bottom: none;
+    }
+
+    .exp-item:hover .exp-item__role {
+      opacity: 0.5;
+    }
+
+    .exp-item__info {
+      display: flex;
+      flex-direction: column;
+      gap: 0.15rem;
+    }
+
+    .exp-item__role {
+      font-size: clamp(0.75rem, 1vw, 0.88rem);
+      font-weight: 700;
+      letter-spacing: -0.01em;
+      transition: opacity 0.18s;
+    }
+
+    .exp-item__org {
+      font-family: var(--font-mono);
+      font-size: 0.6rem;
+      color: var(--gray-3);
+      letter-spacing: 0.06em;
+    }
+
+    .exp-item__desc {
+      margin-top: 0.2rem;
+      font-size: 0.67rem;
+      color: var(--gray-3);
+      line-height: 1.5;
+      max-width: 32ch;
+    }
+
+    .exp-item__period {
+      font-family: var(--font-mono);
+      font-size: 0.6rem;
+      color: var(--gray-3);
+      letter-spacing: 0.04em;
+      text-align: right;
+      padding-left: 1rem;
+      white-space: nowrap;
+    }
+
+    /* ─────────────────────────────────────────
+       ANIMATIONS
+    ───────────────────────────────────────── */
+    @keyframes fadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(12px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50%       { opacity: 0.4; transform: scale(0.75); }
+    }
+
+    /* ─────────────────────────────────────────
+       RESPONSIVE — MOBILE
+    ───────────────────────────────────────── */
+    @media (max-width: 768px) {
+      html, body {
+        overflow: auto;
+      }
+
+      .portfolio {
+        height: auto;
+        min-height: 100vh;
+      }
+
+      header {
+        padding: 1.1rem 1.4rem;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+      }
+
+      main {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto;
+        overflow: visible;
+      }
+
+      .panel-left {
+        padding: 2rem 1.4rem 1.8rem;
+        border-right: none;
+        border-bottom: 1px solid var(--gray-2);
+        gap: 2rem;
+      }
+
+      .panel-right {
+        grid-template-rows: auto auto;
+      }
+
+      .skills {
+        padding: 1.8rem 1.4rem;
+      }
+
+      .experience {
+        padding: 1.6rem 1.4rem;
+      }
+
+      .about__title {
+        font-size: 2.4rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .header__tag {
+        display: none;
+      }
+
+      .exp-item {
+        grid-template-columns: 1fr;
+        gap: 0.2rem;
+      }
+
+      .exp-item__period {
+        text-align: left;
+        padding-left: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<div class="portfolio" role="main">
+
+  <!-- ── HEADER ── -->
+  <header>
+    <span class="header__name">Alex Moreau</span>
+    <span class="header__tag">Portfolio — 2025</span>
+    <div class="header__status">
+      <span class="status-dot" aria-hidden="true"></span>
+      Available for work
+    </div>
+  </header>
+
+  <!-- ── MAIN ── -->
+  <main>
+
+    <!-- ── LEFT PANEL ── -->
+    <section class="panel-left" aria-label="About">
+
+      <div class="about">
+        <p class="about__eyebrow">Software Engineer</p>
+        <h1 class="about__title">
+          Alex<br/>Moreau
+          <span>Full-Stack Developer &amp; UI Engineer</span>
+        </h1>
+        <p class="about__bio">
+          I design and build thoughtful digital products, focusing on clean 
+          architecture and precise interfaces. Currently open to freelance 
+          engagements and full-time roles in product-led teams.
+        </p>
+      </div>
+
+      <div class="contact">
+        <p class="contact__label">Contact</p>
+        <a class="contact__discord" href="#" aria-label="Discord: ekqwm">
+          <!-- Discord SVG icon -->
+          <svg class="discord-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 14.09 14.09 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/>
+          </svg>
+          ekqwm
+        </a>
+        <p class="contact__meta">— Discord · Preferred contact</p>
+      </div>
+
+    </section>
+
+    <!-- ── RIGHT PANEL ── -->
+    <div class="panel-right">
+
+      <!-- SKILLS -->
+      <section class="skills" aria-label="Skills">
+        <p class="section__label">Skills</p>
+        <div class="skills__grid">
+
+          <div class="skill-row">
+            <span class="skill-row__category">Languages</span>
+            <div class="skill-row__tags" role="list">
+              <span class="tag" role="listitem">TypeScript</span>
+              <span class="tag" role="listitem">Python</span>
+              <span class="tag" role="listitem">Rust</span>
+              <span class="tag" role="listitem">SQL</span>
+            </div>
+          </div>
+
+          <div class="skill-row">
+            <span class="skill-row__category">Frameworks</span>
+            <div class="skill-row__tags" role="list">
+              <span class="tag" role="listitem">Next.js</span>
+              <span class="tag" role="listitem">FastAPI</span>
+              <span class="tag" role="listitem">Node.js</span>
+              <span class="tag" role="listitem">tRPC</span>
+            </div>
+          </div>
+
+          <div class="skill-row">
+            <span class="skill-row__category">Tools</span>
+            <div class="skill-row__tags" role="list">
+              <span class="tag" role="listitem">Docker</span>
+              <span class="tag" role="listitem">Postgres</span>
+              <span class="tag" role="listitem">Redis</span>
+              <span class="tag" role="listitem">Git</span>
+            </div>
+          </div>
+
+          <div class="skill-row">
+            <span class="skill-row__category">Design</span>
+            <div class="skill-row__tags" role="list">
+              <span class="tag" role="listitem">Figma</span>
+              <span class="tag" role="listitem">CSS / Motion</span>
+              <span class="tag" role="listitem">Systems</span>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- EXPERIENCE -->
+      <section class="experience" aria-label="Experience">
+        <p class="section__label">Experience</p>
+        <div class="exp-list">
+
+          <article class="exp-item">
+            <div class="exp-item__info">
+              <span class="exp-item__role">Lead Frontend Engineer</span>
+              <span class="exp-item__org">Meridian Labs</span>
+              <span class="exp-item__desc">Led UI architecture for a B2B SaaS platform serving 40k+ users. Built design system from scratch.</span>
+            </div>
+            <span class="exp-item__period">2023 — Present</span>
+          </article>
+
+          <article class="exp-item">
+            <div class="exp-item__info">
+              <span class="exp-item__role">Full-Stack Developer</span>
+              <span class="exp-item__org">Arca Systems</span>
+              <span class="exp-item__desc">Developed data pipelines and real-time dashboards for logistics analytics products.</span>
+            </div>
+            <span class="exp-item__period">2021 — 2023</span>
+          </article>
+
+          <article class="exp-item">
+            <div class="exp-item__info">
+              <span class="exp-item__role">Junior Engineer</span>
+              <span class="exp-item__org">Callum &amp; Voss Studio</span>
+              <span class="exp-item__desc">Built interactive web experiences for editorial and agency clients.</span>
+            </div>
+            <span class="exp-item__period">2019 — 2021</span>
+          </article>
+
+        </div>
+      </section>
+
+    </div><!-- /panel-right -->
+
+  </main>
+
+</div><!-- /portfolio -->
+
+</body>
+</html>
